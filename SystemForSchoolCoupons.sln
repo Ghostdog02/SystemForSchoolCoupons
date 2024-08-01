@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35013.160
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SystemForSchoolCoupons", "SystemForSchoolCoupons.csproj", "{253CDD30-5470-454F-9D40-FB2717FEA6F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coupons.Database", "..\Coupons.Database\Coupons.Database.csproj", "{C55BCC48-0EE9-435D-BF0C-474AFD5A3BB2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{253CDD30-5470-454F-9D40-FB2717FEA6F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{253CDD30-5470-454F-9D40-FB2717FEA6F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{253CDD30-5470-454F-9D40-FB2717FEA6F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{253CDD30-5470-454F-9D40-FB2717FEA6F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C55BCC48-0EE9-435D-BF0C-474AFD5A3BB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C55BCC48-0EE9-435D-BF0C-474AFD5A3BB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C55BCC48-0EE9-435D-BF0C-474AFD5A3BB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C55BCC48-0EE9-435D-BF0C-474AFD5A3BB2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CE2DD59F-9371-4A26-9182-BDABF9505B86}
+	EndGlobalSection
+EndGlobal
