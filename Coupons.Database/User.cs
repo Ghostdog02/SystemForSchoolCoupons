@@ -19,13 +19,13 @@ namespace Coupons.Database
         [RegularExpression("/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g")]
         public override string? Email { get; set; }
 
-        public User(/*string password,*/ string email, string phoneNumber, string userName)
-        {
-            this.UserName = userName;
-            this.Email = email;
-            this.PhoneNumber = phoneNumber;
-            //this.PasswordHash = password; 
-        }
+        //public User(/*string password,*/ string email, string phoneNumber, string userName)
+        //{
+        //    this.UserName = userName;
+        //    this.Email = email;
+        //    this.PhoneNumber = phoneNumber;
+        //    //this.PasswordHash = password; 
+        //}
     }
 }
 
