@@ -1,6 +1,10 @@
 using Coupons.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using System.Security;
+using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace SystemForSchoolCoupons
 {
@@ -12,7 +16,8 @@ namespace SystemForSchoolCoupons
             var connectionString = builder.Configuration.GetConnectionString("CouponsContextConnection");
             builder.Services.AddDbContext<CouponsContext>(options => options.UseSqlServer(connectionString));
 
-            builder.Services.AddIdentity<User, IdentityRole<int>>(options => options.SignIn.RequireConfirmedAccount = true)
+            builder.Services.AddIdentity<User, IdentityRole<int>>(options => options.SignIn.RequireConfirmedAccount = false)
+                .AddRoles<IdentityRole<int>>()
                 .AddEntityFrameworkStores<CouponsContext>()
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
@@ -48,6 +53,9 @@ namespace SystemForSchoolCoupons
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            var provider = app.Services;
+            SeedData.Initialize(app.Services);
 
             app.MapRazorPages();
             await ApplyMigrations(app);
