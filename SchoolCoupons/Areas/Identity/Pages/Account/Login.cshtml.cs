@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json;
 
 namespace SchoolCoupons.Areas.Identity.Pages.Account
 {
@@ -58,9 +59,14 @@ namespace SchoolCoupons.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
+            /// 
             [Required]
-            [EmailAddress]
-            public string Email { get; set; }
+            [Display(Name = "User Name")]
+            public string UserName { get; set; }
+
+            //[Required]
+            //[EmailAddress]
+            //public string Email { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -103,23 +109,41 @@ namespace SchoolCoupons.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
+
+
+                //var user = _signInManager.UserManager.Users.Where(u => u.Email == Input.UserName).FirstOrDefault() == null ?
+                //_signInManager.PasswordSignInAsync(user)
+                //var user = _signInManager.UserManager.Users.Where(u => u.Email == Input.UserName).FirstOrDefault();
+
+                //Try to find user from users database first by email and if it fails then by username
+
+                //var user = _signInManager.UserManager.Users.Where(u => u.Email == Input.UserName).FirstOrDefault() == null ?
+                //    _signInManager.UserManager.Users.Where(u => u.UserName == Input.UserName).FirstOrDefault() : null;
+
+
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
+                var result = await _signInManager.PasswordSignInAsync(Input.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+
+                //var result = await _signInManager.PasswordSignInAsync(user, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
                 }
+
                 if (result.RequiresTwoFactor)
                 {
                     return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
                 }
+
                 if (result.IsLockedOut)
                 {
                     _logger.LogWarning("User account locked out.");
                     return RedirectToPage("./Lockout");
                 }
+
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");

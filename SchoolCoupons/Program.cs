@@ -1,10 +1,6 @@
 using Coupons.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
-using System.Security;
-using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
-using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace SystemForSchoolCoupons
 {
@@ -21,6 +17,15 @@ namespace SystemForSchoolCoupons
                 .AddEntityFrameworkStores<CouponsContext>()
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
+
+            builder.Services.Configure<IdentityOptions>(options =>
+            {
+                // Default SignIn settings.
+                options.SignIn.RequireConfirmedEmail = false;
+                options.SignIn.RequireConfirmedPhoneNumber = false;
+                options.Lockout.AllowedForNewUsers = false;
+            });
+
             builder.Services.AddAuthorization();
 
             //builder.Services.AddMvc();
@@ -54,8 +59,10 @@ namespace SystemForSchoolCoupons
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
+            //using var scope = app.Services.CreateScope();
             var provider = app.Services;
-            SeedData.Initialize(app.Services);
+            var seeder = new SeedData();
+            seeder.InitializeAsync(provider);
 
             app.MapRazorPages();
             await ApplyMigrations(app);
@@ -81,6 +88,7 @@ namespace SystemForSchoolCoupons
 
                 logger.LogInformation("Database migrations applied successfully.");
             }
+
             catch (Exception ex)
             {
                 // Log the exception if migrations fail
