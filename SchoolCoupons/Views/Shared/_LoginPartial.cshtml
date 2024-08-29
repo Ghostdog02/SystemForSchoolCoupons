@@ -9,12 +9,13 @@
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
         </li>
-        <p>Welcome @User.Identity?.Name</p>
+        
         <li class="nav-item">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout"
                   method="post">
                 <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
             </form>
+            @* <a href="@Url.Action("Index", "Admin")">Go to Home</a> *@
         </li>
     }
 

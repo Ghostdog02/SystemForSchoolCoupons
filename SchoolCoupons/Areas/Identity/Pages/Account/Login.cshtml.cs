@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
+using SchoolCoupons.Extensions;
 
 namespace SchoolCoupons.Areas.Identity.Pages.Account
 {
@@ -16,11 +17,13 @@ namespace SchoolCoupons.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<User> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly UserManager<User> _userManager;
 
-        public LoginModel(SignInManager<User> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<User> signInManager, ILogger<LoginModel> logger, UserManager<User> userManager)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _userManager = userManager;
         }
 
         /// <summary>
@@ -120,12 +123,13 @@ namespace SchoolCoupons.Areas.Identity.Pages.Account
                 //var user = _signInManager.UserManager.Users.Where(u => u.Email == Input.UserName).FirstOrDefault() == null ?
                 //    _signInManager.UserManager.Users.Where(u => u.UserName == Input.UserName).FirstOrDefault() : null;
 
+                var user = _userManager.FindByNameOrEmailAsync(Input.UserName, Input.Password);
 
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                //var result = await _signInManager.PasswordSignInAsync(Input.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
 
-                //var result = await _signInManager.PasswordSignInAsync(user, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(user.Result, Input.Password, Input.RememberMe, lockoutOnFailure: false);
 
                 if (result.Succeeded)
                 {
@@ -154,5 +158,20 @@ namespace SchoolCoupons.Areas.Identity.Pages.Account
             // If we got this far, something failed, redisplay form
             return Page();
         }
+
+        //public async Task<User> FindByNameOrEmailAsync
+        //    (UserManager<User> userManager, string usernameOrEmail, string password)
+        //{
+        //    var username = usernameOrEmail;
+        //    if (usernameOrEmail.Contains("@"))
+        //    {
+        //        var userForEmail = await userManager.FindByEmailAsync(usernameOrEmail);
+        //        if (userForEmail != null)
+        //        {
+        //            username = userForEmail.UserName;
+        //        }
+        //    }
+        //    return await userManager.FindByNameAsync(username);
+        //}
     }
 }
