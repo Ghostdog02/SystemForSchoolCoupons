@@ -64,68 +64,48 @@ namespace Coupons.Database
             //}
             //var newScope = serviceProvider.CreateScope();
             //var userManager = newScope.ServiceProvider.GetRequiredService<UserManager<User>>();
-            string email = "admin@admin.com";
-            string password = "V3s3ly#042";
-            string userName = "Admin";
-            string phoneNumber = "0882452245";
+
             //IdentityOptions identityOptions = new IdentityOptions();
             //identityOptions.User.RequireUniqueEmail = true;
-                        
-            if (await userManager.FindByEmailAsync(email) == null)
+            var users = new List<User>();
+            string password = "V3s3ly#042";
+            //string roleForUser = "Admin";
+            var user = new User
             {
-                
-                //string userName = "Admin";
-                ////var user = new User(email, phoneNumber, userName);
-                //var normalizedEmail = userManager.NormalizeEmail(email);
-                //var normalizedUsername = userManager.NormalizeName(userName);
+                UserName = "Admin",
+                Email = "admin@admin.com",
+                PhoneNumber = "0882452245",
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = true,
+                LockoutEnabled = false,
+            };
 
-                
-                //await userManager.CreateAsync(user, password);
-                //await userManager.AddToRoleAsync(user, "Admin");
-                //var user = new User();
+            var user2 = new User
+            {
+                UserName = "Parent",
+                Email = "parent@parent.com",
+                PhoneNumber = "0882432245",
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = true,
+                LockoutEnabled = false,
+            };
 
-                var user = new User
+            users.Add(user);
+            users.Add(user2);
+
+            foreach (var normalUser in users)
+            {
+                if (await userManager.FindByEmailAsync(normalUser.Email) == null)
                 {
-                    UserName = userName,
-                    Email = email,
-                    PhoneNumber = phoneNumber,
-                    EmailConfirmed = true,
-                    PhoneNumberConfirmed = true,
-                    LockoutEnabled = false,
-                };
-
-                user.PhoneNumber = phoneNumber;
-
-                //var userStore = new CustomUserStore(context);
-                //var emailStore = GetEmailStore(userManager, userStore);
-
-                //await userStore.SetUserNameAsync(user, userName, CancellationToken.None);
-                //await emailStore.SetEmailAsync(user, email, CancellationToken.None);
-                await userManager.CreateAsync(user, password);
-                await userManager.AddToRoleAsync(user, "Admin");
+                    await userManager.CreateAsync(normalUser, password);
+                    //Change role Parameter if you want to change you username later
+                    await userManager.AddToRoleAsync(normalUser, normalUser.UserName);
+                }
             }
 
-            //AssignRoles(serviceProvider, user.Email, roles);
+            
 
             await context.SaveChangesAsync();
         }
-
-        //private IUserEmailStore<User> GetEmailStore(UserManager<User> userManager, CustomUserStore userStore)
-        //{
-        //    if (!userManager.SupportsUserEmail)
-        //    {
-        //        throw new NotSupportedException("The default UI requires a user store with email support.");
-        //    }
-        //    return (IUserEmailStore<User>)userStore;
-        //}
-
-        //public static async Task<IdentityResult> AssignRoles(IServiceProvider services, string email, string[] roles)
-        //{
-        //    UserManager<User> _userManager = services.GetService<UserManager<User>>();
-        //    User user = await _userManager.FindByEmailAsync(email);
-        //    var result = await _userManager.AddToRolesAsync(user, roles);
-
-        //    return result;
-        //}
     }
 }
