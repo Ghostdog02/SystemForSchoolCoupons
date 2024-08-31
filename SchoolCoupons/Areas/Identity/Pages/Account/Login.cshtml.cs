@@ -29,63 +29,26 @@ namespace SchoolCoupons.Areas.Identity.Pages.Account
             _dbContext = dbContext;
         }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         [BindProperty]
         public InputModel Input { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public string ReturnUrl { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         [TempData]
         public string ErrorMessage { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public class InputModel
         {
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
-            /// 
             [Required]
             [Display(Name = "User Name")]
             public string UserName { get; set; }
 
-            //[Required]
-            //[EmailAddress]
-            //public string Email { get; set; }
-
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
             [Required]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
             [Display(Name = "Remember me?")]
             public bool RememberMe { get; set; }
         }
@@ -107,7 +70,7 @@ namespace SchoolCoupons.Areas.Identity.Pages.Account
             ReturnUrl = returnUrl;
         }
 
-        //TO DO: Check if you need returnUrl Parameter
+
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
@@ -116,21 +79,7 @@ namespace SchoolCoupons.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-
-
-                //var user = _signInManager.UserManager.Users.Where(u => u.Email == Input.UserName).FirstOrDefault() == null ?
-                //_signInManager.PasswordSignInAsync(user)
-                //var user = _signInManager.UserManager.Users.Where(u => u.Email == Input.UserName).FirstOrDefault();
-
-                //Try to find user from users database first by email and if it fails then by username
-
-                //var user = _signInManager.UserManager.Users.Where(u => u.Email == Input.UserName).FirstOrDefault() == null ?
-                //    _signInManager.UserManager.Users.Where(u => u.UserName == Input.UserName).FirstOrDefault() : null;
-
                 var user = _userManager.FindByNameOrEmailAsync(Input.UserName, Input.Password);
-
-
-                //var result = await _signInManager.PasswordSignInAsync(Input.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
 
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
@@ -139,12 +88,9 @@ namespace SchoolCoupons.Areas.Identity.Pages.Account
                 var roleId = _dbContext.UserRoles.Where(userRole => userRole.UserId == user.Result.Id).Select(userRole => userRole.RoleId).Single();
                 var role = _dbContext.Roles.Find(roleId).Name;
 
-                //returnUrl = $"/{role}";
-
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    //return LocalRedirect(returnUrl);
                     return RedirectToAction("Index", $"{role}");
                 }
 

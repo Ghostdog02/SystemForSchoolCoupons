@@ -1,0 +1,76 @@
+﻿@page
+@model BookCouponsModel
+
+@{
+    ViewData["Title"] = "Book Coupons";
+
+    var minDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 05);
+    var maxDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 27);
+
+}
+
+<div class="text-center">
+    <h1 class="display-4">Here you can book coupons</h1>
+</div>
+<div class="e-bigger">
+    <ejs-calendar id="calendar" isMultiSelection="true" values=""></ejs-calendar>
+</div>
+<hr />
+<div>
+    <button id="date-submit" type="submit" class="btn btn-lg btn-primary">Book</button>
+    @* <button id="date-submit" type="submit" class="w-100 btn btn-lg btn-primary">Book</button> *@
+</div>
+@* <button id="touch">Touch Mode</button>
+<button id="mouse">Mouse Mode</button> *@
+
+@* @section Scripts {
+        <script>
+
+        document.getElementById("touch").addEventListener("click", function () {
+            var controls = document.querySelectorAll('.control');
+            for (var index = 0; index < controls.length; index++) {
+                controls[index].classList.add('e-bigger');
+            }
+        });
+
+        document.getElementById("mouse").addEventListener("click", function () {
+            var controls = document.querySelectorAll('.control');
+            for (var index = 0; index < controls.length; index++) {
+                controls[index].classList.remove('e-bigger');
+            }
+        });
+    </script>
+} *@
+<script>
+    document.getElementById('calendar').addEventListener('click', () => {
+        var selecteditem = document.getElementById('element').ej2_instances[0].getSelectedItems();
+        var data = document.getElementById('val');
+        data.innerHTML = "";
+        var row1 = document.createElement('tr');
+        var header1 = document.createElement('th');
+        header1.innerHTML = 'Text';
+        row1.appendChild(header1);
+        var header2 = document.createElement('th');
+        header2.innerHTML = 'Id';
+        row1.appendChild(header2);
+        document.getElementById('val').appendChild(row1);
+        for (var i = 0; i < (selecteditem["data"]).length; i++) {
+            var row2 = document.createElement('tr');
+            row2.setAttribute("id", i.toString());
+            var data1 = document.createElement('td');
+            data1.innerHTML = selecteditem["text"][i];
+            row2.appendChild(data1);
+            var data2 = document.createElement('td');
+            data2.innerHTML = (selecteditem["data"])[i].id.toString();
+            row2.appendChild(data2);
+            document.getElementById('val').appendChild(row2);
+        }
+
+    });
+</script>
+<style>
+    .padding-top {
+        padding-top: 20px;
+    }
+</style>
+

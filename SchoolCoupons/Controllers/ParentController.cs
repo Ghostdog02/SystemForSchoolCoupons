@@ -10,5 +10,10 @@ namespace SchoolCoupons.Controllers
         {
             return View();
         }
+
+        public IActionResult BookCoupons()
+        {
+            return View();
+        }
     }
 }
