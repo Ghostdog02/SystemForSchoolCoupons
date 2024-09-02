@@ -68,7 +68,7 @@ namespace Coupons.Database
             //IdentityOptions identityOptions = new IdentityOptions();
             //identityOptions.User.RequireUniqueEmail = true;
             var users = new List<User>();
-            string password = "V3s3ly#042";
+            string password = "oXMR4TgdfQAEqEN";
             //string roleForUser = "Admin";
             var user = new User
             {
